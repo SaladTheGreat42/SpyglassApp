@@ -1,5 +1,6 @@
 package com.example.spyglassapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -33,5 +34,20 @@ public class SQLBackend extends SQLiteOpenHelper {
 
     }//end onUpgrade
 
+    public boolean addOne(CustomerModel customerModel){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(USER_NAME, customerModel.getUserName());
+        cv.put(USER_PASSWORD, customerModel.getPassword());
+        cv.put(USER_ACTIVE, customerModel.isActive());
+
+        long insert = db.insert(CUSTOMER_TABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }
+        else {
+            return true;}
+    }
 
 }
